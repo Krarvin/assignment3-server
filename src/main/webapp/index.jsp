@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>Servlet Examples</title>
+    <meta name="author" content="Jens Dietrich">
+    <meta name="description"
+          content="Index page containing links to and short descriptions of some Servlet examples">
+</head>
+<body style="color: rgb(0, 0, 0);">
+<table cellpadding="2" cellspacing="2" border="0"
+       style="text-align: left; width: 100%;">
+    <tbody>
+    <tr>
+        <td
+                style="background-color: rgb(160, 170, 238); text-align: center; vertical-align: middle;">
+            <h4
+                    style="text-align: center;"> </h4>
+            <h3 style="text-align: center;">Servlet and JSP Examples</h3>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>Servlets</h3>
+<table cellpadding="2" cellspacing="2" border="1"
+       style="text-align: left; width: 100%;">
+    <tbody>
+
+    <tr>
+        <td style="vertical-align: top;">Form Analyser<br>
+        </td>
+        <td style="vertical-align: top;">An html form processing servlet.
+            Press the submit button to send this form to a form processing servlet.<br>
+            <table cellpadding="2" cellspacing="2" border="1"
+                   style="text-align: left; width: 100%;">
+                <tbody>
+                <tr>
+                    <td style="vertical-align: top;">
+                        <table cellpadding="2" cellspacing="2" border="1"
+                               style="text-align: left; width: 100px;">
+                            <tbody>
+                            <tr>
+                                <td
+                                        style="vertical-align: top; background-color: rgb(204, 204, 204);">Limit:<br>
+                                    <form action="FormAnalyzer"> <input Limit="Limit"
+                                                                        size="50"> <br>
+                                        Level:<br>
+                                        <input Level="Level" size="50"><br>
+                                        <hr style="width: 100%; height: 2px;"><input
+                                                type="submit" value="Submit (GET)">&nbsp; </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <table cellpadding="2" cellspacing="2" border="1"
+                               style="text-align: left; width: 100px;">
+                            <tbody>
+                            <tr>
+                                <td
+                                        style="vertical-align: top; background-color: rgb(204, 204, 204);">Message:<br>
+                                    <form action="LogMessages" method="post"> <input
+                                            Message="Message" size="50"> <br>
+                                        <hr style="width: 100%; height: 2px;"><input
+                                                type="submit" value="Submit (POST)"> </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+<p align="center"><small><a href="https://ecs.victoria.ac.nz/Main/JensDietrich">Jens Dietrich, Victoria University of Wellington, 2019</a></small></p>
+<br>
+</body>
+</html>
