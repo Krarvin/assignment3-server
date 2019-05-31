@@ -9,15 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Log extends HttpServlet {
-    public static String[] database;
-    public static int maxSize;
+/*    public static ArrayList<String> database = new ArrayList<String>();*/
+    public static HashMap<String, Integer> database = new HashMap<String, Integer>();
+    public static int maxSize = 1000;
 
     public Log(){
-        this.maxSize = 100;
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -29,7 +31,17 @@ public class Log extends HttpServlet {
         String level = request.getParameter("Level");
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
-        out.println("asdf");
+        int count = 0;
+        for(String key: database.keySet()){
+            if(count < Integer.parseInt(limit)) {
+                if (database.get(key) < Integer.parseInt(level)) {
+                    out.println(key);
+                    count++;
+                }
+            }else{
+                break;
+            }
+        }
         out.close();
     }
 
@@ -45,10 +57,15 @@ public class Log extends HttpServlet {
         logger.addAppender(appender);
         logger.info(s);
         PrintWriter out = response.getWriter();
-        database = new String[appender.getCurrentLogs().size()];
-        for(int i = 0; i<appender.getCurrentLogs().size(); i++){
-            database[i] = appender.getCurrentLogs().get(i);
-            out.println(database[i]);
+        if(database.size() == this.maxSize) {
+            database.remove(database.get(database.keySet().toArray()[0]));
+            database.put(appender.getCurrentLogs().get(0), 4);
+        }else{
+            database.put(appender.getCurrentLogs().get(0), 4);
+        }
+
+        for(String key: database.keySet()){
+            out.println(key);
         }
         out.close();
 
