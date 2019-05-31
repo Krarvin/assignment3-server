@@ -15,18 +15,16 @@ public class Log extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String n = request.getParameter("name");
-        if(n == null){
+        if(request.getParameter("Limit").isEmpty() || request.getParameter("Level").isEmpty()){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+        String limit = request.getParameter("Limit");
+        String level = request.getParameter("Level");
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
-        String names = Arrays.stream(database).filter(name ->  name.startsWith("K")).collect(Collectors.joining(" "));
-        out.println(names);
+        out.println("asdf");
         out.close();
     }
-    public void doPost(String id){
 
-    }
 }
