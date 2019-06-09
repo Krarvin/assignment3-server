@@ -1,5 +1,5 @@
 package test.nz.ac.vuw.swen301.assignment3.server;
-import nz.ac.vuw.swen301.assignment3.server.Log;
+import nz.ac.vuw.swen301.assignment3.server.LogServlet;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -14,7 +14,7 @@ public class WhiteBoxTests {
     public void test1() throws IOException {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        Log service = new Log();
+        LogServlet service = new LogServlet();
         service.doGet(request, response);
         assertEquals(400, response.getStatus());
     }

@@ -7,7 +7,7 @@
   <servlet>
     <servlet-name>LogMessages</servlet-name>
     <servlet-class>
-      nz.ac.vuw.swen301.assignment3.server.Log
+      nz.ac.vuw.swen301.assignment3.server.LogServlet
     </servlet-class>
   </servlet>
   <servlet-mapping>
@@ -18,7 +18,7 @@
   <servlet>
     <servlet-name>Logs</servlet-name>
     <servlet-class>
-      nz.ac.vuw.swen301.assignment3.server.Log
+      nz.ac.vuw.swen301.assignment3.server.LogServlet
     </servlet-class>
   </servlet>
   <servlet-mapping>
