@@ -31,7 +31,7 @@ import org.threeten.bp.OffsetDateTime;
  * LogEvent
  */
 public class LogEvent {
-    public LogEvent(UUID id, String message, Date timestamp, String thread, String logger, String level){
+    public LogEvent(String id, String message, String timestamp, String thread, String logger, String level){
         this.id = id;
         this.message = message;
         this.timestamp = timestamp;
@@ -42,13 +42,13 @@ public class LogEvent {
     }
 
     @SerializedName("id")
-    private UUID id = null;
+    private String id = null;
 
     @SerializedName("message")
     private String message = null;
 
     @SerializedName("timestamp")
-    private Date timestamp = null;
+    private String timestamp = null;
 
     @SerializedName("thread")
     private String thread = null;
@@ -119,7 +119,7 @@ public class LogEvent {
     @SerializedName("errorDetails")
     private String errorDetails = null;
 
-    public LogEvent id(UUID id) {
+    public LogEvent id(String id) {
         this.id = id;
         return this;
     }
@@ -128,11 +128,11 @@ public class LogEvent {
      * Get id
      * @return id
      **/
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -153,7 +153,7 @@ public class LogEvent {
         this.message = message;
     }
 
-    public LogEvent timestamp(Date timestamp) {
+    public LogEvent timestamp(String timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -163,11 +163,11 @@ public class LogEvent {
      * @return timestamp
      **/
     @ApiModelProperty(example = "2019-07-29T09:12:33.001Z", required = true, value = "see https://stackoverflow.com/questions/8405087/what-is-this-date-format-2011-08-12t201746-384z how to interface with this date format")
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

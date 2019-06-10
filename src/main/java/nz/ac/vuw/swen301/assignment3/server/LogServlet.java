@@ -1,20 +1,24 @@
 package nz.ac.vuw.swen301.assignment3.server;
 
 
+import com.google.gson.Gson;
+import org.apache.commons.compress.utils.IOUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class LogServlet extends HttpServlet {
     public static int maxSize = 50;
@@ -56,44 +60,43 @@ public class LogServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException{
-        String jsonString = "";
-        String jsonLine;
-        BufferedReader br = request.getReader();
+        request.setCharacterEncoding("UTF-8");
+        StringBuilder sb = new StringBuilder();
+        try {
+            BufferedReader br = request.getReader();
+//        jsonString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            String jsonLine;
         while((jsonLine = br.readLine())!= null){
-            jsonString += jsonLine;
+            sb.append(jsonLine);
         }
+        PrintWriter out = response.getWriter();
         JSONObject json;
-        JSONArray jsonArray = new JSONArray(jsonString);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-        Date timestamp = null;
-        for(int i =0; i< jsonArray.length(); i++){
-           json = jsonArray.getJSONObject(i);
-           String message = json.getString("message");
-            try {
-                timestamp = dateFormat.parse(json.getString("timestamp"));
-            } catch (ParseException e) {
-                e.printStackTrace();
+            JSONArray jsonArray = new JSONArray(sb.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                System.out.println(jsonArray.get(i).toString());
             }
+        for(int i =0; i< jsonArray.length(); i++) {
+            json = jsonArray.getJSONObject(i);
+            String id = json.getString("id");
+            String message = json.getString("message");
+            String timestamp = json.getString("timestamp");
             String thread = json.getString("thread");
             String logger = json.getString("logger");
             String level = json.getString("level");
-            LogEvent event = new LogEvent(UUID.randomUUID(), message,timestamp,thread,logger,level);
+            LogEvent event = new LogEvent(id, message, timestamp, thread, logger, level);
             database.add(event);
         }
+        out.close();
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
 
+
+
 }
 
 
-//           if(json.has("timestamp")){
-//               try {
-//                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-//                   Date date = dateFormat.parse(database.get(i).getString("timestamp"));
-//                   json.remove("timestamp");
-//                   json.put("timestamp", date);
-//               } catch (ParseException e) {
-//                   e.printStackTrace();
-//               }
-//           }

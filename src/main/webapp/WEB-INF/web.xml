@@ -5,14 +5,14 @@
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
   <servlet>
-    <servlet-name>LogMessages</servlet-name>
+    <servlet-name>logs</servlet-name>
     <servlet-class>
       nz.ac.vuw.swen301.assignment3.server.LogServlet
     </servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LogMessages</servlet-name>
-    <url-pattern>/LogMessages</url-pattern>
+    <servlet-name>logs</servlet-name>
+    <url-pattern>/logs</url-pattern>
   </servlet-mapping>
 
   <servlet>
