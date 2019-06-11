@@ -1,42 +1,19 @@
 package nz.ac.vuw.swen301.assignment3.server;
 
 
-import com.google.gson.Gson;
-import org.apache.commons.compress.utils.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONString;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 public class LogServlet extends HttpServlet {
     public static int maxSize = 50;
     public static ArrayList<LogEvent> database = new ArrayList<>();
-
-
-//    public enum LEVEL
-//    {
-//        TRACE(5),DEBUG(4),INFO(3),WARN(2),ERROR(1),FATAL(0);
-//        private int levVal;
-//        LEVEL(int levVal){
-//            this.levVal = levVal;
-//        }
-//
-//        public int getlevVal(){
-//            return this.getlevVal();
-//        }
-//    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(request.getParameter("Limit").isEmpty() || request.getParameter("Level").isEmpty()) {
@@ -72,9 +49,9 @@ public class LogServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         JSONObject json;
             JSONArray jsonArray = new JSONArray(sb.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                System.out.println(jsonArray.get(i).toString());
-            }
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                System.out.println(jsonArray.get(i).toString());
+//            }
         for(int i =0; i< jsonArray.length(); i++) {
             json = jsonArray.getJSONObject(i);
             String id = json.getString("id");
@@ -84,6 +61,7 @@ public class LogServlet extends HttpServlet {
             String logger = json.getString("logger");
             String level = json.getString("level");
             LogEvent event = new LogEvent(id, message, timestamp, thread, logger, level);
+//            System.out.println(database.size());
             database.add(event);
         }
         out.close();

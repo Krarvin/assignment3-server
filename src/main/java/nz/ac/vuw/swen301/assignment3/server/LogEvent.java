@@ -40,7 +40,6 @@ public class LogEvent {
         this.level = LevelEnum.valueOf(level);
 
     }
-
     @SerializedName("id")
     private String id = null;
 

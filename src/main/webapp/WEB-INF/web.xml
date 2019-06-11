@@ -14,7 +14,16 @@
     <servlet-name>logs</servlet-name>
     <url-pattern>/logs</url-pattern>
   </servlet-mapping>
-
+  <servlet>
+    <servlet-name>stats</servlet-name>
+    <servlet-class>
+      nz.ac.vuw.swen301.assignment3.server.StatManager
+    </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>stats</servlet-name>
+    <url-pattern>/stats</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>Logs</servlet-name>
     <servlet-class>
