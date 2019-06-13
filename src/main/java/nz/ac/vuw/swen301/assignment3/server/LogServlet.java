@@ -1,9 +1,12 @@
 package nz.ac.vuw.swen301.assignment3.server;
 
 
+import com.google.gson.GsonBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,20 +22,38 @@ public class LogServlet extends HttpServlet {
         if(request.getParameter("Limit").isEmpty() || request.getParameter("Level").isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
-        }if(Integer.parseInt(request.getParameter("Limit")) < 0 || Integer.parseInt(request.getParameter("Limit")) > maxSize ){
+        }if(Integer.parseInt(request.getParameter( "Limit")) < 0 || Integer.parseInt(request.getParameter("Limit")) > maxSize ){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+        int limit = Integer.parseInt(request.getParameter("Limit"));
+        System.out.println(request.getParameter("Level"));
+        System.out.println(request.getParameter("Limit"));
         int count = 0;
         PrintWriter out = response.getWriter();
-        for(int i = database.size(); i <= database.size();i--){
+        out.write("[");
+        out.write("\n");
+        System.out.println(database.size());
+        for(int i = database.size() - 1;i >= 0 && count < limit;i--){
+            System.out.println(LogEvent.LevelEnum.valueOf(request.getParameter("Level")).getValue());
             if(count > Integer.parseInt(request.getParameter("Limit"))){
                 break;
             }else if(database.get(i).getLevel().getValue() <= LogEvent.LevelEnum.valueOf(request.getParameter("Level")).getValue()){
-                String json = database.get(i).toString();
-                out.write(json);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", database.get(i).getId());
+                jsonObject.put("message", database.get(i).getMessage());
+                jsonObject.put("timestamp", database.get(i).getTimestamp());
+                jsonObject.put("thread", database.get(i).getThread());
+                jsonObject.put("logger", database.get(i).getLogger());
+                jsonObject.put("level", database.get(i).getLevel());
+                jsonObject.put("errorDetails", "");
+                out.write(jsonObject.toString());
+                if(count + 1 < limit) {
+                    out.write(",\n");
+                }
                 count++;
             }
         }
+        out.write("\n]");
         out.close();
     }
 
@@ -46,9 +67,9 @@ public class LogServlet extends HttpServlet {
         while((jsonLine = br.readLine())!= null){
             sb.append(jsonLine);
         }
-        PrintWriter out = response.getWriter();
+        System.out.println(sb.toString());
         JSONObject json;
-            JSONArray jsonArray = new JSONArray(sb.toString());
+        JSONArray jsonArray = new JSONArray(sb.toString());
 //            for (int i = 0; i < jsonArray.length(); i++) {
 //                System.out.println(jsonArray.get(i).toString());
 //            }
@@ -64,7 +85,8 @@ public class LogServlet extends HttpServlet {
 //            System.out.println(database.size());
             database.add(event);
         }
-        out.close();
+        System.out.println(database.size());
+
         }catch (JSONException e) {
             e.printStackTrace();
         }

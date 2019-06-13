@@ -283,6 +283,21 @@ public class LogEvent {
         return sb.toString();
     }
 
+    public String formatString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+
+        sb.append("    \"id\":").append( toIndentedString("\"" +id+ "\",")).append("\n");
+        sb.append("    \"message\":").append(toIndentedString("\"" +message+ "\",")).append("\n");
+        sb.append("    \"timestamp\":").append(toIndentedString("\"" +timestamp+ "\",")).append("\n");
+        sb.append("    \"thread\":").append(toIndentedString("\"" +thread+ "\",")).append("\n");
+        sb.append("    \"logger\":").append(toIndentedString("\"" +logger+ "\",")).append("\n");
+        sb.append("    \"level\":").append(toIndentedString("\"" +level+ "\",")).append("\n");
+        sb.append("    \"errorDetails\":").append(toIndentedString("\"" +errorDetails+ "\"")).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
     /**
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).

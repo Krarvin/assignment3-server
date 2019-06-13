@@ -131,4 +131,3 @@ public class StatManager extends HttpServlet {
     }
 
     }
-
