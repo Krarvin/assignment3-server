@@ -19,7 +19,7 @@ public class LogServlet extends HttpServlet {
     public static ArrayList<LogEvent> database = new ArrayList<>();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if(request.getParameter("Limit").isEmpty() || request.getParameter("Level").isEmpty()) {
+        if(request.getParameter("Limit") == null || request.getParameter("Level") == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }if(Integer.parseInt(request.getParameter( "Limit")) < 0 || Integer.parseInt(request.getParameter("Limit")) > maxSize ){
@@ -34,7 +34,6 @@ public class LogServlet extends HttpServlet {
         out.write("\n");
         System.out.println(database.size());
         for(int i = database.size() - 1;i >= 0 && count < limit;i--){
-            System.out.println(LogEvent.LevelEnum.valueOf(request.getParameter("Level")).getValue());
             if(count > Integer.parseInt(request.getParameter("Limit"))){
                 break;
             }else if(database.get(i).getLevel().getValue() <= LogEvent.LevelEnum.valueOf(request.getParameter("Level")).getValue()){
@@ -44,7 +43,7 @@ public class LogServlet extends HttpServlet {
                 jsonObject.put("timestamp", database.get(i).getTimestamp());
                 jsonObject.put("thread", database.get(i).getThread());
                 jsonObject.put("logger", database.get(i).getLogger());
-                jsonObject.put("level", database.get(i).getLevel());
+                jsonObject.put("level", database.get(i).getLevel().name());
                 jsonObject.put("errorDetails", "");
                 out.write(jsonObject.toString());
                 if(count + 1 < limit) {

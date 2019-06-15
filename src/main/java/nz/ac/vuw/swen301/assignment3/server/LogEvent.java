@@ -61,17 +61,17 @@ public class LogEvent {
     @JsonAdapter(LevelEnum.Adapter.class)
     public enum LevelEnum {
 
-        DEBUG(0),
+        DEBUG(5),
 
-        INFO(1),
+        INFO(4),
 
-        WARN(2),
+        WARN(3),
 
-        ERROR(3),
+        ERROR(2),
 
-        FATAL(4),
+        FATAL(1),
 
-        TRACE(5);
+        TRACE(6);
 
         private int value;
 

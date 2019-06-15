@@ -47,24 +47,24 @@ public class StatManager extends HttpServlet {
         for(String level:levelSet){
             Row levelRow = sheet.createRow(rownum++);
             Cell levelCell = levelRow.createCell(cellnum);
+            System.out.println(level);
             levelCell.setCellValue(level);
         }
 
         for(LogEvent event: database) {
-            Pair levelpair = new Pair(event.getLevel().toString(), event.getTimestamp().substring(0,9));
+            Pair levelpair = new Pair(event.getLevel().name(), event.getTimestamp().substring(0,10));
             if (stats.containsKey(levelpair)) {
-//                Pair pair = new Pair(event.getLevel().toString(), event.getTimestamp().substring(0, 9));
                 stats.put(levelpair, stats.get(levelpair) + 1);
             } else {
                 stats.put(levelpair, 1);
             }
-            Pair threadpair = new Pair(event.getThread(), event.getTimestamp().substring(0,9));
+            Pair threadpair = new Pair(event.getThread(), event.getTimestamp().substring(0,10));
             if (stats.containsKey(threadpair)) {
                 stats.put(threadpair, stats.get(threadpair) + 1);
             } else {
                 stats.put(threadpair, 1);
             }
-            Pair loggerpair = new Pair(event.getLogger(), event.getTimestamp().substring(0,9));
+            Pair loggerpair = new Pair(event.getLogger(), event.getTimestamp().substring(0,10));
             if (stats.containsKey(loggerpair)) {
                 stats.put(loggerpair, stats.get(loggerpair) + 1);
             } else {
@@ -109,7 +109,7 @@ public class StatManager extends HttpServlet {
     public Set<String> getLevels(ArrayList<LogEvent> database){
         Set<String> levelSet = new HashSet<>();
         for(LogEvent event: database){
-            levelSet.add(event.getLevel().toString());
+            levelSet.add(event.getLevel().name());
         }
         return levelSet;
     }
@@ -125,7 +125,7 @@ public class StatManager extends HttpServlet {
     public Set<String> getDates(ArrayList<LogEvent> database){
         Set<String> DateSet = new HashSet<>();
         for(LogEvent event: database){
-            DateSet.add(event.getTimestamp().substring(0,9));
+            DateSet.add(event.getTimestamp().substring(0,10));
         }
         return DateSet;
     }
