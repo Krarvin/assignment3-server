@@ -21,6 +21,7 @@ public class StatManager extends HttpServlet {
     public static HashMap<Pair,Integer> stats = new HashMap<>();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("ENTERED STATS");
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Log Stats");
         response.setContentType("application/vnd.ms-excel");
@@ -100,10 +101,11 @@ public class StatManager extends HttpServlet {
             workbook.write(fileOut);
             byte[] outArray = fileOut.toByteArray();
             OutputStream outStream = response.getOutputStream();
+            response.setStatus(HttpServletResponse.SC_CREATED);
             outStream.write(outArray);
             outStream.flush();
             fileOut.close();
-            response.setStatus(HttpServletResponse.SC_CREATED);
+
         }
         catch(Exception e){
 

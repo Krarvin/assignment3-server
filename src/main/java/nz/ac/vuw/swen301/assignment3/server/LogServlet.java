@@ -35,15 +35,13 @@ public class LogServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
         int limit = Integer.parseInt(request.getParameter("limit"));
-        System.out.println(request.getParameter("level"));
-        System.out.println(request.getParameter("limit"));
-        System.out.println(database.size());
+//        System.out.println(request.getParameter("level"));
+//        System.out.println(request.getParameter("limit"));
         int count = 0;
         PrintWriter out = response.getWriter();
         out.write("[");
         out.write("\n");
-        System.out.println(database.size());
-        for(int i = database.size() - 1;i >= 0 && count < limit;i--){
+        for(int i = database.size() - 1;i >= 0 && count < limit && count < database.size();i--){
             if(count > Integer.parseInt(request.getParameter("limit"))){
                 break;
             }else if(database.get(i).getLevel().getValue() <= LogEvent.LevelEnum.valueOf(request.getParameter("level")).getValue()){
@@ -55,12 +53,13 @@ public class LogServlet extends HttpServlet {
                 jsonObject.put("logger", database.get(i).getLogger());
                 jsonObject.put("level", database.get(i).getLevel().name());
                 jsonObject.put("errorDetails", "");
-                System.out.println(jsonObject.toString());
+//                System.out.println(jsonObject.toString());
                 out.write(jsonObject.toString());
                 if(count + 1 < limit) {
                     out.write(",\n");
                 }
                 count++;
+                System.out.println(database.size());
             }
         }
         out.write("\n]");
@@ -81,20 +80,16 @@ public class LogServlet extends HttpServlet {
         while((jsonLine = br.readLine())!= null){
             sb.append(jsonLine);
         }
-        System.out.println(sb.toString());
         JSONObject json;
+        response.setContentType("application/json");
         if(!sb.toString().startsWith("[") || !sb.toString().endsWith("]")){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         JSONArray jsonArray = new JSONArray(sb.toString());
-        if(jsonArray.length() == 0){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
 //            for (int i = 0; i < jsonArray.length(); i++) {
 //                System.out.println(jsonArray.get(i).toString());
 //            }
-            System.out.println(jsonArray.length());
         for(int i =0; i< jsonArray.length(); i++) {
             json = jsonArray.getJSONObject(i);
             String id = json.getString("id");
@@ -107,7 +102,6 @@ public class LogServlet extends HttpServlet {
 //            System.out.println(database.size());
             database.add(event);
         }
-        System.out.println(database.size());
 
         }catch (JSONException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
