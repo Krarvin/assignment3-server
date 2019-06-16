@@ -10,8 +10,10 @@ import nz.ac.vuw.swen301.assignment3.server.Pair;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -21,7 +23,12 @@ public class StatManager extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Log Stats");
+        response.setContentType("application/vnd.ms-excel");
         ArrayList<LogEvent> database = LogServlet.database;
+        if(database.size() == 0){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         Set<String> loggerSet = getLoggers(database);
         Set<String> levelSet = getLevels(database);
         Set<String> threadSet = getThreads(database);
@@ -71,7 +78,6 @@ public class StatManager extends HttpServlet {
                 stats.put(loggerpair, 1);
             }
         }
-        int count = 0;
         for(Pair key: stats.keySet()) {
         for(int i = 1; i < sheet.getLastRowNum() + 1; i++){
                 if (sheet.getRow(i).getCell(0).toString().equals(key.getFirst())){
@@ -89,9 +95,15 @@ public class StatManager extends HttpServlet {
             }
         }
         try{
-            FileOutputStream fileOut = new FileOutputStream("log-statistics.xlsx");
+//            FileOutputStream fileOut = new FileOutputStream("log-statistics.xlsx");
+            ByteArrayOutputStream fileOut = new ByteArrayOutputStream();
             workbook.write(fileOut);
+            byte[] outArray = fileOut.toByteArray();
+            OutputStream outStream = response.getOutputStream();
+            outStream.write(outArray);
+            outStream.flush();
             fileOut.close();
+            response.setStatus(HttpServletResponse.SC_CREATED);
         }
         catch(Exception e){
 

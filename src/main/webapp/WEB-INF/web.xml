@@ -24,6 +24,7 @@
     <servlet-name>stats</servlet-name>
     <url-pattern>/stats</url-pattern>
   </servlet-mapping>
+
   <servlet>
     <servlet-name>Logs</servlet-name>
     <servlet-class>
